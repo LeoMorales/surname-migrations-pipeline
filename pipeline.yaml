@@ -1,0 +1,21 @@
+# tareas
+# 1. Calcular una distancia XX entre dos conjuntos
+# 2. Tarea para calcular distancias entre provincias todas vs todas
+# 3. Tarea para calcular distancias entre departamentos todos vs todos
+
+tasks:
+  # surname distance task:
+  - source: tasks.distances.get_dapartamental_distances
+    name: get_dapartamental_distances
+    product: 
+      isonymic: _products/distance_matrices/dapartamental_isonymic.parquet
+      lasker: _products/distance_matrices/dapartamental_lasker.parquet
+      nei: _products/distance_matrices/dapartamental_nei.parquet
+      euclidean: _products/distance_matrices/dapartamental_euclidean.parquet
+ 
+  # "geodesical" distance task:
+  - source: tasks.distances.get_dapartamental_distances_in_meters
+    name: get_dapartamental_distances_in_meters
+    params:
+      departments_shape_file: '{{DEPARTMENTS_SHAPE_PATH}}'
+    product: _products/distance_matrices/dapartamental_in_meters.parquet
