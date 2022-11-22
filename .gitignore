@@ -1,1 +1,6 @@
 _products
+
+*/.ipynb_checkpoints/
+*/__pycache__/
+
+exploratory

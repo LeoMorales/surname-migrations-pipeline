@@ -1,21 +1,59 @@
-# tareas
 # 1. Calcular una distancia XX entre dos conjuntos
 # 2. Tarea para calcular distancias entre provincias todas vs todas
 # 3. Tarea para calcular distancias entre departamentos todos vs todos
 
 tasks:
   # surname distance task:
-  - source: tasks.distances.get_dapartamental_distances
-    name: get_dapartamental_distances
-    product: 
-      isonymic: _products/distance_matrices/dapartamental_isonymic.parquet
-      lasker: _products/distance_matrices/dapartamental_lasker.parquet
-      nei: _products/distance_matrices/dapartamental_nei.parquet
-      euclidean: _products/distance_matrices/dapartamental_euclidean.parquet
+  #- source: tasks.distances.get_dapartamental_distances
+  #  name: get_dapartamental_distances
+  #  product: 
+  #    isonymic: _products/distance_matrices/dapartamental_isonymic.parquet
+  #    lasker: _products/distance_matrices/dapartamental_lasker.parquet
+  #    nei: _products/distance_matrices/dapartamental_nei.parquet
+  #    euclidean: _products/distance_matrices/dapartamental_euclidean.parquet
  
-  # "geodesical" distance task:
-  - source: tasks.distances.get_dapartamental_distances_in_meters
-    name: get_dapartamental_distances_in_meters
+  # geografical distance task:
+  #- source: tasks.distances.get_dapartamental_distances_in_meters
+  #  name: get_dapartamental_distances_in_meters
+  #  params:
+  #    departments_shape_file: '{{DEPARTMENTS_SHAPE_PATH}}'
+  #  product: _products/distance_matrices/dapartamental_in_meters.parquet
+
+
+  # fisher and karlin-mcgregor
+  # |
+  # - departments:
+  #   |
+  #   - 2015:
+  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_departamental_2015
+    name: get-karlin-mcgregor-departamental-2015
+    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2015.parquet
+  #   |
+  #   - 2021:
+  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_departamental_2021
+    name: get-karlin-mcgregor-departamental-2021
+    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2021.parquet
+
+  # |
+  # - circuits:
+  #   |
+  #   - 2021:
+  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_circuito_2021
+    name: get-karlin-mcgregor-circuito-2021
+    product: _products/karlin-mcgregor/karlin-mcgregor-circuitos-2021.parquet
+
+  # vis
+  - source: tasks.vis.choroplets.plot_choroplet_compartive_map
+    name: plot-choroplet-compartive-map
     params:
-      departments_shape_file: '{{DEPARTMENTS_SHAPE_PATH}}'
-    product: _products/distance_matrices/dapartamental_in_meters.parquet
+      departmentShapePath: '{{DEPARTMENTS_SHAPE_PATH}}'
+    product: _products/vis/choroplet/karlin-mcgregor-departamental-2015-2021.png
+  
+  - source: tasks.vis.maps.plot_karlin_mcgregor_2015
+    name: plot-karlin-mcgregor-2015
+    params:
+      shape_path: '{{DEPARTMENTS_SHAPE_PATH}}'
+    product:
+      map-v: _products/vis/map-karlin-mcgregor-departamental.png
+      map-a: _products/vis/map-fishers-alpha-departamental.png
+      scatterplot-a-and-v: _products/vis/scatterplot-karlin-mcgregor-and-fishers-alpha-departamental.png
