@@ -24,13 +24,18 @@ tasks:
   # |
   # - departments:
   #   |
+  #   - 2000:
+  - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2000
+    name: get-karlin-mcgregor-departamental-2000
+    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2000.parquet
+  #   |
   #   - 2015:
-  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_departamental_2015
+  - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2015
     name: get-karlin-mcgregor-departamental-2015
     product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2015.parquet
   #   |
   #   - 2021:
-  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_departamental_2021
+  - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2021
     name: get-karlin-mcgregor-departamental-2021
     product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2021.parquet
 
@@ -38,7 +43,7 @@ tasks:
   # - circuits:
   #   |
   #   - 2021:
-  - source: tasks.karlin_mcgregor.get_karlin_mcgregor_circuito_2021
+  - source: tasks.migration_indicators.get_karlin_mcgregor_circuito_2021
     name: get-karlin-mcgregor-circuito-2021
     product: _products/karlin-mcgregor/karlin-mcgregor-circuitos-2021.parquet
 
@@ -57,3 +62,8 @@ tasks:
       map-v: _products/vis/map-karlin-mcgregor-departamental.png
       map-a: _products/vis/map-fishers-alpha-departamental.png
       scatterplot-a-and-v: _products/vis/scatterplot-karlin-mcgregor-and-fishers-alpha-departamental.png
+
+  # Report:
+  - source: tasks.reports.create_report
+    name: create-report
+    product: _output/report.pdf

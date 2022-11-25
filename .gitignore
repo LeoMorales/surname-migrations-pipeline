@@ -1,6 +1,8 @@
 _products
+_output
 
 */.ipynb_checkpoints/
 */__pycache__/
 
 exploratory
+_input_data

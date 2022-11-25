@@ -1,19 +1,22 @@
-import geopandas
-
 from surnames_package import paths
 
-department_shp = geopandas.read_file(paths.DEPARTMENT_SHAPE_PATH)
+# +
+import geopandas
+
+shape_path = '/home/lmorales/work/pipelines/resources/departamentos.geojson'
+department_shp = geopandas.read_file(shape_path)
+# -
 
 department_shp.head()
 
 import pandas
 
-df_2015 = pandas.read_parquet("../_products/isonymic/karlin-mcgregor-departamental-2015.parquet")
+df_2015 = pandas.read_parquet("../_products/karlin-mcgregor/karlin-mcgregor-departamental-2015.parquet")
 
 df_2015.head()
 
 # +
-df_2021 = pandas.read_parquet("../_products/isonymic/karlin-mcgregor-departamental-2021.parquet")
+df_2021 = pandas.read_parquet("../_products/karlin-mcgregor/karlin-mcgregor-departamental-2021.parquet")
 
 print(df_2021.head())
 # -
@@ -29,6 +32,10 @@ import matplotlib.pyplot as plt
 max_a = df_2015.a.max() if df_2015.a.max() > df_2021.a.max() else df_2021.a.max()
 min_a = df_2015.a.min() if df_2015.a.min() < df_2021.a.min() else df_2021.a.min()
 print(min_a, max_a)
+
+import matplotlib.pyplot as plt
+import matplotlib.cm as colormap
+from matplotlib import colors
 
 # +
 fig, axes = plt.subplots(ncols=2, figsize=(20, 16))
@@ -78,6 +85,24 @@ axes[1].set_axis_off()
 axes[1].set_title("2021")
 
 plt.suptitle("Karlin-McGregor's v\n2015 & 2021", fontsize=24)
+
+# shared colorbar at the end:
+im = plt.gca().get_children()[0]
+cax = fig.add_axes([0.1,0.05,0.8,0.03])
+cmap = colormap.viridis
+bounds = [0, 0.025, .05, .1, .2]
+norm = colors.BoundaryNorm(bounds, cmap.N)
+
+fig.colorbar(
+    im,
+    cax=cax,
+    orientation='horizontal',
+    ticks=bounds,
+    norm=norm,
+    spacing='uniform'
+)
+
+
 plt.show();
 
 # +

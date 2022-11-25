@@ -6,16 +6,39 @@ import pandas
 from termcolor import colored
 
 from surnames_package import isonymic
-
+from surnames_package import cleaning
 
 # -
 
 def _contains_letter(code):
     return len([letter for letter in str(code) if not letter.isdigit()]) > 0
 
-def _get_karlin_mcgregor_by_column(df, slice_by_column):
+def get_karlin_mcgregor_departamental_2000(product):
+    """"""
+    print("Computing get_karlin_mcgregor_departamental_2000...")
+    # ya está procesado en un excel, limpiar para coincidir con los códigos del pipeline
+    path = "/home/lmorales/work/pipelines/surname_migrations_pipeline/_input_data/Base para Leo.xlsx"
+    df = pandas.read_excel(path)
+    df.columns = df.columns.str.upper()
+    work_columns = ['CODPROV', 'CODLOC', 'V']
+    output_df = df[work_columns].rename(columns={'V': 'v'})
     
+    output_df['provincia_id'] = \
+        cleaning.rewrite_province_codes(output_df.loc[:, 'CODPROV'])
+    output_df['departamento_id'] = \
+        cleaning.rewrite_department_codes(
+            output_df['CODLOC'],
+            output_df['provincia_id'])
+    
+    output_df = output_df[
+        ["departamento_id", "provincia_id", "v"]
+    ]
+    output_df.to_parquet(str(product))
+
+
+def _get_karlin_mcgregor_by_column(df, slice_by_column):    
     """
+    TODO: PASAR A PAQUETE
     ```Util function```
     
     Obtiene el valor de v de Karlin-McGregor para cada unidad.
