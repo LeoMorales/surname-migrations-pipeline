@@ -2,7 +2,8 @@ _products
 _output
 
 */.ipynb_checkpoints/
-*/__pycache__/
+*/__pycache__/*
+*.pyc
 
 exploratory
 _input_data
