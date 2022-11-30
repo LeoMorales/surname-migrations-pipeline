@@ -3,7 +3,7 @@ import geopandas
 import matplotlib.pyplot as plt
 import matplotlib.cm as colormap
 from matplotlib import colors
-import numpy as np
+import numpy
 from matplotlib.patches import Rectangle
 from matplotlib.legend_handler import HandlerBase
 from matplotlib.patches import Patch
@@ -49,16 +49,17 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     # read shape
     department_shp = geopandas.read_file(departmentShapePath)
     # read data
-    df_2000 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2000']))
+    df_2001 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2001']))
     df_2015 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2015']))
     df_2021 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2021']))
 
     fig, axes = plt.subplots(ncols=3, figsize=(24, 16))
 
-    data_shp_2000 = pandas.merge(
+    data_shp_2001 = pandas.merge(
         department_shp,
-        df_2000,
-        on="departamento_id"
+        df_2001,
+        left_on="departamento_id",
+        right_on="department_id"
     )
     data_shp_2015 = pandas.merge(
         department_shp,
@@ -74,12 +75,12 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     )
 
     max_v = max([
-        data_shp_2000.v.max(),
+        data_shp_2001.v.max(),
         data_shp_2015.v.max(),
         data_shp_2021.v.max()]
     )
     min_v = min([
-        data_shp_2000.v.min(),
+        data_shp_2001.v.min(),
         data_shp_2015.v.min(),
         data_shp_2021.v.min()]
     )
@@ -87,8 +88,8 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     v_cmap = seaborn.diverging_palette(250, 5, as_cmap=True)
     nd_cmap = matplotlib.cm.get_cmap("Greys").copy()
 
-    datasets = [data_shp_2000, data_shp_2015, data_shp_2021]
-    year_labels = ['2000', '2015', '2021']
+    datasets = [data_shp_2001, data_shp_2015, data_shp_2021]
+    year_labels = ['2001', '2015', '2021']
     
     cmaps = [v_cmap, nd_cmap]
 
@@ -102,7 +103,7 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
         )
 
         dataset = dataset.dropna(subset=['v'])
-        map = dataset.plot(
+        dataset.plot(
             column="v",
             legend=False,
             vmax=max_v,
@@ -142,7 +143,8 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     RedtoBluesIndex = 1
     im = plt.gca().get_children()[RedtoBluesIndex]
     cax = fig.add_axes([0.1,0.05,0.8,0.03])
-    bounds = [0, 0.025, .05, .1, .2]
+    bounds = numpy.linspace(min_v, max_v, num=10)
+    
     norm = colors.BoundaryNorm(bounds, v_cmap.N)
 
     fig.colorbar(
@@ -155,5 +157,120 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     )
 
     plt.suptitle("Karlin-McGregor's v", fontsize=24)
+    plt.savefig(str(product), dpi=300)
+    plt.close()
+
+
+def plot_choroplet_compartive_map_wright_m(upstream, product, departmentShapePath):
+    
+    # read shape
+    department_shp = geopandas.read_file(departmentShapePath)
+    # read data
+    df_2001 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2001']))
+    df_2015 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2015']))
+    df_2021 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2021']))
+    
+    data_shp_2001 = pandas.merge(
+        department_shp,
+        df_2001,
+        left_on="departamento_id",
+        right_on="department_id"
+    )
+    data_shp_2015 = pandas.merge(
+        department_shp,
+        df_2015,
+        left_on="departamento_id",
+        right_on="department_id"
+    )
+    data_shp_2021 = pandas.merge(
+        department_shp,
+        df_2021,
+        left_on="departamento_id",
+        right_on="department_id"
+    )
+
+    max_m = max([
+        data_shp_2001['m'].max(),
+        data_shp_2015['m'].max(),
+        data_shp_2021['m'].max()]
+    )
+    min_m = min([
+        data_shp_2001['m'].min(),
+        data_shp_2015['m'].min(),
+        data_shp_2021['m'].min()]
+    )
+
+    fig, axes = plt.subplots(ncols=3, figsize=(24, 16))
+    m_cmap = seaborn.diverging_palette(250, 5, as_cmap=True)
+    nd_cmap = matplotlib.cm.get_cmap("Greys").copy()
+
+    datasets = [data_shp_2001, data_shp_2015, data_shp_2021]
+    year_labels = ['2001', '2015', '2021']
+    
+    cmaps = [m_cmap, nd_cmap]
+
+    for i, (year, dataset) in enumerate(zip(year_labels, datasets)):
+        
+        ax_i = axes[i]
+        
+        department_shp.plot(
+            color=nd_cmap.get_over(),
+            ax=ax_i
+        )
+
+        dataset = dataset.dropna(subset=['m'])
+        dataset.plot(
+            column="m",
+            legend=False,
+            vmax=max_m,
+            vmin=min_m,
+            cmap=m_cmap,
+            ax=ax_i
+        )
+
+        ax_i.set_axis_off()
+        ax_i.set_title(f"{year}", fontsize=28)
+        cmap_labels = [
+            "Wright's m",
+            f"No data: {len(department_shp) - len(dataset)}"
+        ]
+
+        # create proxy artists as handles:
+        cmap_handles = [Rectangle((0, 0), 1, 1) for _ in cmaps]
+        handler_map = dict(zip(
+            cmap_handles, 
+            [
+                HandlerColormap(m_cmap, num_stripes=8),
+                HandlerColormap(nd_cmap, num_stripes=1)
+            ])
+        )
+
+        ax_i.legend(
+            handles=cmap_handles, 
+            labels=cmap_labels, 
+            handler_map=handler_map, 
+            fontsize=12,
+            loc='best',
+            bbox_to_anchor=(0.5, 0., 0.5, 0.2)
+        )
+
+    
+    # shared colorbar at the end:
+    RedtoBluesIndex = 1
+    im = plt.gca().get_children()[RedtoBluesIndex]
+    cax = fig.add_axes([0.1,0.05,0.8,0.03])
+    bounds = numpy.linspace(min_m, max_m, num=10)
+    norm = colors.BoundaryNorm(bounds, m_cmap.N)
+
+    fig.colorbar(
+        im,
+        cax=cax,
+        orientation='horizontal',
+        ticks=bounds,
+        norm=norm,
+        spacing='uniform'
+    )
+
+    plt.suptitle("Wright's m", fontsize=24)
     plt.savefig(str(product), dpi=300)
     plt.close()

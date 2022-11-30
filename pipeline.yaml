@@ -25,34 +25,52 @@ tasks:
   # - departments:
   #   |
   #   - 2000:
-  - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2000
-    name: get-karlin-mcgregor-departamental-2000
-    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2000.parquet
+  - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2001
+    name: get-karlin-mcgregor-departamental-2001
+    product: _products/migration-indicators/karlin-mcgregor-departamental-2001.parquet
+  - source: tasks.migration_indicators.get_wright_m_departaments_2001
+    name: get-wright-m-departaments-2001
+    product: _products/migration-indicators/wright-m-departaments-2001.parquet
   #   |
   #   - 2015:
   - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2015
     name: get-karlin-mcgregor-departamental-2015
-    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2015.parquet
+    product: _products/migration-indicators/karlin-mcgregor-departamental-2015.parquet
+  
+  - source: tasks.migration_indicators.get_wright_m_departaments_2015
+    name: get-wright-m-departaments-2015
+    product: _products/migration-indicators/wright-m-departaments-2015.parquet
   #   |
   #   - 2021:
   - source: tasks.migration_indicators.get_karlin_mcgregor_departamental_2021
     name: get-karlin-mcgregor-departamental-2021
-    product: _products/karlin-mcgregor/karlin-mcgregor-departamental-2021.parquet
+    product: _products/migration-indicators/karlin-mcgregor-departamental-2021.parquet
+
+  - source: tasks.migration_indicators.get_wright_m_departaments_2021
+    name: get-wright-m-departaments-2021
+    product: _products/migration-indicators/wright-m-departaments-2021.parquet
 
   # |
   # - circuits:
   #   |
   #   - 2021:
-  - source: tasks.migration_indicators.get_karlin_mcgregor_circuito_2021
-    name: get-karlin-mcgregor-circuito-2021
-    product: _products/karlin-mcgregor/karlin-mcgregor-circuitos-2021.parquet
+  # TODO: Descomentar (comente porque le cambié la carpeta de destino)
+  # - source: tasks.migration_indicators.get_karlin_mcgregor_circuito_2021
+  #   name: get-karlin-mcgregor-circuito-2021
+  #   product: _products/migration-indicators/karlin-mcgregor-circuitos-2021.parquet
 
   # vis
   - source: tasks.vis.choroplets.plot_choroplet_compartive_map
     name: plot-choroplet-compartive-map
     params:
       departmentShapePath: '{{DEPARTMENTS_SHAPE_PATH}}'
-    product: _products/vis/choroplet/karlin-mcgregor-departamental-2015-2021.png
+    product: _products/vis/choroplet/karlin-mcgregor-departamental-2001-2021.png
+  
+  - source: tasks.vis.choroplets.plot_choroplet_compartive_map_wright_m
+    name: plot-choroplet-compartive-map-wright-m
+    params:
+      departmentShapePath: '{{DEPARTMENTS_SHAPE_PATH}}'
+    product: _products/vis/choroplet/wright-m-departamental-2001-2021.png
   
   - source: tasks.vis.maps.plot_karlin_mcgregor_2015
     name: plot-karlin-mcgregor-2015
@@ -67,3 +85,12 @@ tasks:
   - source: tasks.reports.create_report
     name: create-report
     product: _output/report.pdf
+
+  # Isonymics
+  - source: tasks.isonymic_indicators.get_isonymy_departments_2015
+    name: get-isonymy-departments-2015
+    product: _products/isonymy/isonymy-departments-2015.parquet
+
+  - source: tasks.isonymic_indicators.get_isonymy_departments_2021
+    name: get-isonymy-departments-2021
+    product: _products/isonymy/isonymy-departments-2021.parquet
