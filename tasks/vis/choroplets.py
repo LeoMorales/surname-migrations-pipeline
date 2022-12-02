@@ -1,7 +1,6 @@
 import pandas
 import geopandas
 import matplotlib.pyplot as plt
-import matplotlib.cm as colormap
 from matplotlib import colors
 import numpy
 from matplotlib.patches import Rectangle
@@ -9,40 +8,8 @@ from matplotlib.legend_handler import HandlerBase
 from matplotlib.patches import Patch
 import matplotlib 
 import seaborn
-
-class HandlerColormap(HandlerBase):
-    def __init__(self, cmap, num_stripes=8, **kw):
-        HandlerBase.__init__(self, **kw)
-        self.cmap = cmap
-        self.num_stripes = num_stripes
-
-    def create_artists(self, legend, orig_handle, 
-                       xdescent, ydescent, width, height, fontsize, trans):
-        stripes = []
-        
-        if self.num_stripes == 1:
-            # solo un cuadradito con el último color del cmap
-            stripes.append(
-                Rectangle(
-                    [0, 0], 
-                    width, 
-                    height, 
-                    fc=self.cmap.get_over(), 
-                    transform=trans
-                )
-            )
-        else:
-            for i in range(self.num_stripes):
-                s = Rectangle(
-                    [xdescent + i * width / self.num_stripes, ydescent], 
-                    width / self.num_stripes, 
-                    height, 
-                    fc=self.cmap((2 * i + 1) / (2 * self.num_stripes)), 
-                    transform=trans
-                )
-                stripes.append(s)
-        
-        return stripes
+from surnames_package import geovis
+from surnames_package import utils
 
 def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     
@@ -124,8 +91,8 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
         handler_map = dict(zip(
             cmap_handles, 
             [
-                HandlerColormap(v_cmap, num_stripes=8),
-                HandlerColormap(nd_cmap, num_stripes=1)
+                geovis.HandlerColormap(v_cmap, num_stripes=8),
+                geovis.HandlerColormap(nd_cmap, num_stripes=1)
             ])
         )
 
@@ -240,8 +207,8 @@ def plot_choroplet_compartive_map_wright_m(upstream, product, departmentShapePat
         handler_map = dict(zip(
             cmap_handles, 
             [
-                HandlerColormap(m_cmap, num_stripes=8),
-                HandlerColormap(nd_cmap, num_stripes=1)
+                geovis.HandlerColormap(m_cmap, num_stripes=8),
+                geovis.HandlerColormap(nd_cmap, num_stripes=1)
             ])
         )
 
@@ -273,4 +240,70 @@ def plot_choroplet_compartive_map_wright_m(upstream, product, departmentShapePat
 
     plt.suptitle("Wright's m", fontsize=24)
     plt.savefig(str(product), dpi=300)
+    plt.close()
+    
+    
+def plot_choroplet_comparative_maps(upstream, product, departmentShapePath, region_name, work_column:str = 'm_100'):
+    """ Tenemos datasets y shape en donde cada dataset_i comparte con shape un
+    atributo de separación de celdas por ejemplo ´region_nombre´.
+    
+    """
+    department_shp = geopandas.read_file(departmentShapePath)
+    # read data
+    df_2001 = pandas.read_parquet(upstream['get-wright-m-departaments-2001'])
+    df_2015 = pandas.read_parquet(upstream['get-wright-m-departaments-2015'])
+    df_2021 = pandas.read_parquet(upstream['get-wright-m-departaments-2021'])
+
+    df_2001 = utils.append_cell_codes(df_2001, departmentCodeColumn='department_id')
+    df_2015 = utils.append_cell_codes(df_2015, departmentCodeColumn='department_id')
+    df_2021 = utils.append_cell_codes(df_2021, departmentCodeColumn='department_id')
+    
+    # TODO: esto que lo haga get-wright-m-departaments-2021 ...
+    df_2001['m_100'] = df_2001['m'] *100
+    df_2015['m_100'] = df_2015['m'] *100
+    df_2021['m_100'] = df_2021['m'] *100
+    
+    # regions = ["NOA", "NEA"]
+    # for region_name in regions:
+    region_shape = department_shp[department_shp['region_nombre'] == region_name]
+
+    # COL = 'm_100'
+    region_df_2001 = df_2001[df_2001['region_nombre'] == region_name]
+    region_df_2015 = df_2015[df_2015['region_nombre'] == region_name]
+    region_df_2021 = df_2021[df_2021['region_nombre'] == region_name]
+
+    region_df_2001 = region_df_2001.dropna(subset=[work_column])
+    region_df_2015 = region_df_2015.dropna(subset=[work_column])
+    region_df_2021 = region_df_2021.dropna(subset=[work_column])
+
+    datasets = {
+        '2001': region_df_2001,
+        '2015': region_df_2015,
+        '2021': region_df_2021
+    }
+
+    f, axs = geovis.plot_comparative_choropleths(
+        datasets=datasets,
+        shape=region_shape,
+        mergeColDataset="departamento_id",
+        mergeColShape="department_id",
+        plotColumn=work_column,
+        gradientLabel=f"{work_column} value"
+    )
+
+    title_ypositions = {
+        "NOA": 0.93,
+        "NEA": 0.86,
+        "Centro": 0.91,
+        "Cuyo":1.05,
+        "Patagonia":1.05
+    }
+
+    f.suptitle(
+        region_name,
+        y=title_ypositions[region_name],
+        fontsize=28
+    )
+
+    f.savefig(str(product), dpi=300)
     plt.close()

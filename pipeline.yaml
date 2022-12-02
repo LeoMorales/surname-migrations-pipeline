@@ -81,6 +81,15 @@ tasks:
       map-a: _products/vis/map-fishers-alpha-departamental.png
       scatterplot-a-and-v: _products/vis/scatterplot-karlin-mcgregor-and-fishers-alpha-departamental.png
 
+  - source: tasks.vis.choroplets.plot_choroplet_comparative_maps
+    name: plot-choroplet-comparative-maps-[[region_name]]-[[work_column]]
+    product: _products/vis/choroplet/comparative-choropleth-[[region_name]]-[[work_column]].png
+    params:
+      departmentShapePath: '{{DEPARTMENTS_MINIMAL_SHAPE_PATH}}'
+    grid:
+        region_name: ["NOA", "NEA", "Centro", "Cuyo", "Patagonia"]
+        work_column: ['m_100', 'fst']
+
   # Report:
   - source: tasks.reports.create_report
     name: create-report
