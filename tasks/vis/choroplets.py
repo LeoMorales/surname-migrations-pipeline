@@ -16,9 +16,9 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     # read shape
     department_shp = geopandas.read_file(departmentShapePath)
     # read data
-    df_2001 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2001']))
-    df_2015 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2015']))
-    df_2021 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departamental-2021']))
+    df_2001 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departmental-2001']))
+    df_2015 = pandas.read_parquet(str(upstream['get-karlin-mcgregor-departmental-2015']))
+    df_2021 = pandas.read_parquet(str(upstream['get-departmental-karlin-mcgregor-2021']))
 
     fig, axes = plt.subplots(ncols=3, figsize=(24, 16))
 
@@ -128,14 +128,14 @@ def plot_choroplet_compartive_map(upstream, product, departmentShapePath):
     plt.close()
 
 
-def plot_choroplet_compartive_map_wright_m(upstream, product, departmentShapePath):
+def plot_choroplet_compartive_map_wright_m_to_refactor(upstream, product, departmentShapePath):
     
     # read shape
     department_shp = geopandas.read_file(departmentShapePath)
     # read data
-    df_2001 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2001']))
-    df_2015 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2015']))
-    df_2021 = pandas.read_parquet(str(upstream['get-wright-m-departaments-2021']))
+    df_2001 = pandas.read_parquet(str(upstream['get-wright-m-departmental-2001']))
+    df_2015 = pandas.read_parquet(str(upstream['get-departmental-wright-m-2015']))
+    df_2021 = pandas.read_parquet(str(upstream['get-departmental-wright-m-2021']))
     
     data_shp_2001 = pandas.merge(
         department_shp,
@@ -243,38 +243,43 @@ def plot_choroplet_compartive_map_wright_m(upstream, product, departmentShapePat
     plt.close()
     
     
-def plot_choroplet_comparative_maps(upstream, product, departmentShapePath, region_name, work_column:str = 'm_100'):
+def plot_choroplet_comparative_maps(upstream, product, departmentShapePath, regionName, workColumn:str = 'm_100'):
     """ Tenemos datasets y shape en donde cada dataset_i comparte con shape un
     atributo de separación de celdas por ejemplo ´region_nombre´.
     
     """
     department_shp = geopandas.read_file(departmentShapePath)
     # read data
-    df_2001 = pandas.read_parquet(upstream['get-wright-m-departaments-2001'])
-    df_2015 = pandas.read_parquet(upstream['get-wright-m-departaments-2015'])
-    df_2021 = pandas.read_parquet(upstream['get-wright-m-departaments-2021'])
-
-    df_2001 = utils.append_cell_codes(df_2001, departmentCodeColumn='department_id')
-    df_2015 = utils.append_cell_codes(df_2015, departmentCodeColumn='department_id')
-    df_2021 = utils.append_cell_codes(df_2021, departmentCodeColumn='department_id')
+    df_2001 = pandas.read_parquet(str(upstream['combine-departamental-datasets']['data_2001']))
+    df_2015 = pandas.read_parquet(str(upstream['combine-departamental-datasets']['data_2015']))
+    df_2021 = pandas.read_parquet(str(upstream['combine-departamental-datasets']['data_2021']))
     
-    # TODO: esto que lo haga get-wright-m-departaments-2021 ...
+    # append region name
+    df_2001 = utils.append_cell_description(df_2001, departmentCodeColumn="department_id")
+    df_2015 = utils.append_cell_description(df_2015, departmentCodeColumn="department_id")
+    df_2021 = utils.append_cell_description(df_2021, departmentCodeColumn="department_id")
+        
+    
     df_2001['m_100'] = df_2001['m'] *100
     df_2015['m_100'] = df_2015['m'] *100
     df_2021['m_100'] = df_2021['m'] *100
     
     # regions = ["NOA", "NEA"]
-    # for region_name in regions:
-    region_shape = department_shp[department_shp['region_nombre'] == region_name]
+    # for regionName in regions:
+    if regionName == 'Argentina':
+        region_shape = department_shp
+        region_df_2001 = df_2001
+        region_df_2015 = df_2015
+        region_df_2021 = df_2021
+    else:
+        region_shape = department_shp[department_shp['region_nombre'] == regionName]
+        region_df_2001 = df_2001[df_2001['region_nombre'] == regionName]
+        region_df_2015 = df_2015[df_2015['region_nombre'] == regionName]
+        region_df_2021 = df_2021[df_2021['region_nombre'] == regionName]
 
-    # COL = 'm_100'
-    region_df_2001 = df_2001[df_2001['region_nombre'] == region_name]
-    region_df_2015 = df_2015[df_2015['region_nombre'] == region_name]
-    region_df_2021 = df_2021[df_2021['region_nombre'] == region_name]
-
-    region_df_2001 = region_df_2001.dropna(subset=[work_column])
-    region_df_2015 = region_df_2015.dropna(subset=[work_column])
-    region_df_2021 = region_df_2021.dropna(subset=[work_column])
+    region_df_2001 = region_df_2001.dropna(subset=[workColumn])
+    region_df_2015 = region_df_2015.dropna(subset=[workColumn])
+    region_df_2021 = region_df_2021.dropna(subset=[workColumn])
 
     datasets = {
         '2001': region_df_2001,
@@ -287,21 +292,21 @@ def plot_choroplet_comparative_maps(upstream, product, departmentShapePath, regi
         shape=region_shape,
         mergeColDataset="departamento_id",
         mergeColShape="department_id",
-        plotColumn=work_column,
-        gradientLabel=f"{work_column} value"
+        plotColumn=workColumn,
+        gradientLabel=f"{workColumn} value"
     )
 
     title_ypositions = {
         "NOA": 0.93,
         "NEA": 0.86,
         "Centro": 0.91,
-        "Cuyo":1.05,
-        "Patagonia":1.05
+        "Cuyo":.95,
+        "Patagonia":.95
     }
 
     f.suptitle(
-        region_name,
-        y=title_ypositions[region_name],
+        f'{regionName} | {workColumn}',
+        y=title_ypositions.get(regionName, .95),
         fontsize=28
     )
 

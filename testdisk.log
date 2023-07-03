@@ -1,0 +1,54 @@
+
+
+Tue Dec  6 09:28:56 2022
+Command line: TestDisk
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Linux, kernel 5.15.0-56-generic (#62-Ubuntu SMP Tue Nov 22 19:54:14 UTC 2022) x86_64
+Compiler: GCC 11.2
+ext2fs lib: 1.46.5, ntfs lib: libntfs-3g, reiserfs lib: none, ewf lib: none, curses lib: ncurses 6.3
+/dev/sda: LBA, LBA48, DCO support
+/dev/sda: size       488397168 sectors
+/dev/sda: user_max   488397168 sectors
+/dev/sdb: LBA, HPA, LBA48, DCO support
+/dev/sdb: size       1953525168 sectors
+/dev/sdb: user_max   1953525168 sectors
+/dev/sdb: native_max 1953525168 sectors
+/dev/sdc: LBA, HPA, LBA48, DCO support
+/dev/sdc: size       3907029168 sectors
+/dev/sdc: user_max   3907029168 sectors
+/dev/sdc: native_max 3907029168 sectors
+/dev/sdd: LBA, HPA, LBA48, DCO support
+/dev/sdd: size       1953525168 sectors
+/dev/sdd: user_max   1953525168 sectors
+/dev/sdd: native_max 1953525168 sectors
+Warning: can't get size for Disk /dev/mapper/control - 0 B - 0 sectors, sector size=512
+Warning: can't get size for Disk /dev/loop1 - 0 B - 0 sectors (RO), sector size=512
+Warning: can't get size for Disk /dev/loop6 - 0 B - 0 sectors, sector size=512
+Warning: can't get size for Disk /dev/loop7 - 0 B - 0 sectors, sector size=512
+Hard disk list
+Disk /dev/sda - 250 GB / 232 GiB - CHS 30401 255 63, sector size=512 - WDC WD2500BEVT-60ZCT1, S/N:WD-WX70A6932699, FW:13.01A13
+Disk /dev/sdb - 1000 GB / 931 GiB - CHS 121601 255 63, sector size=512 - WDC WD10EACS-00D6B0, S/N:WD-WCAU40194924, FW:01.01A01
+Disk /dev/sdc - 2000 GB / 1863 GiB - CHS 243201 255 63, sector size=512 - WDC WD20EZRZ-00Z5HB0, S/N:WD-WCC4N2CKU9S5, FW:80.00A80
+Disk /dev/sdd - 1000 GB / 931 GiB - CHS 121601 255 63, sector size=512 - WDC WD10EZEX-00WN4A0, S/N:WD-WCC6Y2SA4N8V, FW:01.01A01
+Disk /dev/loop0 - 83 MB / 79 MiB - 163736 sectors (RO), sector size=512
+Disk /dev/loop2 - 66 MB / 63 MiB - 129520 sectors (RO), sector size=512
+Disk /dev/loop3 - 107 MB / 102 MiB - 210912 sectors (RO), sector size=512
+Disk /dev/loop4 - 52 MB / 49 MiB - 101624 sectors (RO), sector size=512
+Disk /dev/loop5 - 66 MB / 63 MiB - 129496 sectors (RO), sector size=512
+
+Partition table type (auto): EFI GPT
+Disk /dev/sdd - 1000 GB / 931 GiB - WDC WD10EZEX-00WN4A0
+Partition table type: Intel
+Partition table type (auto): EFI GPT
+Disk /dev/sdd - 1000 GB / 931 GiB - WDC WD10EZEX-00WN4A0
+Partition table type: Intel
+
+Interface Advanced
+Geometry from i386 MBR: head=256 sector=63
+check_part_i386 1 type EE: no test
+ 1 P EFI GPT                  0   0  2 121601  80 63 1953525167
+
+TestDisk exited normally.

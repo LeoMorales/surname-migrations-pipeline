@@ -5,6 +5,7 @@ import seaborn
 
 from surnames_package import utils
 
+FISHERS_ALPHA_COLUMN = "fishers_alpha"
 # temp, separar tareas...
 def plot_karlin_mcgregor_2015(product, upstream, shape_path):
     """ Dibuja un mapa de la Argentina departamental pintando segun el valor
@@ -13,7 +14,7 @@ def plot_karlin_mcgregor_2015(product, upstream, shape_path):
     """
     # shape = geopandas.read_file("/home/lmorales/work/pipelines/resources/departamentos.geojson")
     shape = geopandas.read_file(shape_path)
-    data_df = pandas.read_parquet(upstream['get-karlin-mcgregor-departamental-2015'])
+    data_df = pandas.read_parquet(str(upstream['combine-departamental-datasets']['data_2015']))
     shape_with_data = pandas.merge(
         shape,
         data_df,
@@ -30,7 +31,7 @@ def plot_karlin_mcgregor_2015(product, upstream, shape_path):
     plt.close()
     
     f, ax = plt.subplots(figsize=(18, 12))
-    shape_with_data.plot(column="a", ax=ax, legend=True, cmap="viridis")
+    shape_with_data.plot(column=FISHERS_ALPHA_COLUMN, ax=ax, legend=True, cmap="viridis")
     ax.set_axis_off()
     ax.set_title("Fisher's alpha")
     plt.savefig(str(product['map-a']))
@@ -40,7 +41,7 @@ def plot_karlin_mcgregor_2015(product, upstream, shape_path):
     seaborn.set_theme(style="whitegrid")
     g = seaborn.relplot(
         data=shape_with_data,
-        x="a", y="v",
+        x=FISHERS_ALPHA_COLUMN, y="v",
         hue="region", size="n",
         sizes=(50, 500)
     )

@@ -5,6 +5,8 @@ import numpy
 from termcolor import colored
 import itertools
 import geopandas
+import logging
+
 
 # Unique Combination Pairs for list of elements
 def uniqueCombinations(list_elements):
@@ -33,7 +35,7 @@ def get_internal_isonymy(surnames_i):
 
     return df_surnames_i.relative_frequency_squared.sum()
 
-def get_distances(surnames_i, surnames_j):
+def __get_distances(surnames_i, surnames_j):
     ''' Devuelve un diccionario con todas las distancias entre las dos listas de apellidos recibidas.
     
     Returns:
@@ -104,6 +106,9 @@ def get_distances(surnames_i, surnames_j):
 
 def get_dapartamental_distances(product):
 
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
     data_path = "/home/lmorales/work/pipelines/surname_data_pipeline/_products/clean/surnames_2015.parquet"
 
     print(colored("\nReading data", 'blue', attrs=['bold','underline']))
@@ -124,14 +129,14 @@ def get_dapartamental_distances(product):
     for i, (department_a, department_b) in enumerate(uniqueCombinations(codes)):
 
         if i % 1_000 == 0:
-            print(colored(f"processed: {i}", 'green'))
+            logger.info(f"processed: {i}")
 
         # filter departamental surnames
         surnames_a = df[df.department_id == department_a]["surname"]
         surnames_b = df[df.department_id == department_b]["surname"]
 
         # get distances
-        distances = get_distances(surnames_a, surnames_b)
+        distances = __get_distances(surnames_a, surnames_b)
 
         # fill the matrix
         isonymic_distance_matrix.loc[department_a, department_b] = distances['I_ij']
