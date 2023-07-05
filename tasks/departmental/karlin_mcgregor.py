@@ -3,10 +3,9 @@ from surnames_package import isonymic
 from surnames_package import cleaning
 
 
-def get_karlin_mcgregor_departmental_2001(product):
+def get_departmental_karlin_mcgregor_2001(product):
     """"""
     # ya está procesado en un excel, limpiar para coincidir con los códigos del pipeline
-    print("Computing get_karlin_mcgregor_departmental_2001...")
     path = "/home/lmorales/work/pipelines/migration_pipeline/_input_data/Base para Leo.xlsx"
     df = pandas.read_excel(path)
     df.columns = df.columns.str.upper()

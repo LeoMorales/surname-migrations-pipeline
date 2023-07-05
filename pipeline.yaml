@@ -18,6 +18,7 @@ tasks:
     product: _products/provincial/isonymy-2015.parquet
 
   ## Departmental tasks:
+  # Data
   - source: tasks.departmental.isonymy.get_departmental_isonymy_2015
     name: get-departmental-isonymy-2015
     product: _products/departmental/isonymy-2015.parquet
@@ -26,8 +27,8 @@ tasks:
     name: get-departmental-isonymy-2021
     product: _products/departmental/isonymy-2021.parquet
 
-  - source: tasks.departmental.karlin_mcgregor.get_karlin_mcgregor_departmental_2001
-    name: get-karlin-mcgregor-departmental-2001
+  - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2001
+    name: get-departmental-karlin-mcgregor-2001
     product: _products/departmental/karlin-mcgregor-2001.parquet
 
   - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2015
@@ -38,8 +39,8 @@ tasks:
     name: get-departmental-karlin-mcgregor-2021
     product: _products/departmental/karlin-mcgregor-2021.parquet
 
-  - source: tasks.departmental.wright.get_wright_m_departmental_2001
-    name: get-wright-m-departmental-2001
+  - source: tasks.departmental.wright.get_departmental_wright_m_2001
+    name: get-departmental-wright-m-2001
     product: _products/departmental/wright-2001.parquet
 
   - source: tasks.departmental.wright.get_departmental_wright_m_2015
@@ -50,10 +51,25 @@ tasks:
     name: get-departmental-wright-m-2021
     product: _products/departmental/wright-2021.parquet
 
+  # Combine
+  - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2001
+    name: get-merged-indicators-2001
+    product: _products/departmental/merged-indicators-2001.parquet
+
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2015
     name: get-merged-indicators-2015
-    product: _products/departmental/get-merged-indicators-2015.parquet
+    product: _products/departmental/merged-indicators-2015.parquet
 
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2021
     name: get-merged-indicators-2021
-    product: _products/departmental/get-merged-indicators-2021.parquet
+    product: _products/departmental/merged-indicators-2021.parquet
+
+  # VIS:
+  - source: tasks.departmental.vis_choropleths.plot_comparative_choropleth_maps
+    name: plot-comparative-choroplet-maps-[[regionalView]]-[[plotColumn]]
+    product: _products/departmental/vis-choropleth/[[regionalView]]/choropleth-[[plotColumn]]-[[regionalView]].png
+    params:
+      departmentShapePath: "{{DEPARTMENTS_MINIMAL_SHAPE_PATH}}"
+    grid:
+      regionalView: ["Patagonia", "Argentina", "NOA", "NEA", "Centro", "Cuyo"]
+      plotColumn: ["m", "fst", "a", "b", "fishers_alpha"]

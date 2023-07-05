@@ -15,7 +15,7 @@ tasks:
   # - departments:
   #   |
   #   - 2000:
-  #- source: tasks.migration_indicators.get_karlin_mcgregor_departmental_2001
+  #- source: tasks.migration_indicators.get_departmental_karlin_mcgregor_2001
   #  name: get-karlin-mcgregor-departamental-2001
   #  product: _products/migration-indicators/karlin-mcgregor-departamental-2001.parquet
   #- source: tasks.migration_indicators.get_wright_m_departaments_2001
@@ -54,13 +54,6 @@ tasks:
   # - source: tasks.migration_indicators.get_karlin_mcgregor_circuito_2021
   #   name: get-karlin-mcgregor-circuito-2021
   #   product: _products/migration-indicators/karlin-mcgregor-circuitos-2021.parquet
-
-  # vis
-  - source: tasks.vis.choroplets.plot_choroplet_compartive_map
-    name: plot-choroplet-compartive-map
-    params:
-      departmentShapePath: "{{DEPARTMENTS_SHAPE_PATH}}"
-    product: _products/vis/choroplet/karlin-mcgregor-departamental-2001-2021.png
 
   - source: tasks.vis.choroplets.plot_choroplet_compartive_map_wright_m
     name: plot-choroplet-compartive-map-wright-m
@@ -141,8 +134,8 @@ tasks:
     name: get-departmental-isonymy-2021
     product: _products/departmental/isonymy-2021.parquet
 
-  - source: tasks.departmental.karlin_mcgregor.get_karlin_mcgregor_departmental_2001
-    name: get-karlin-mcgregor-departmental-2001
+  - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2001
+    name: get-departmental-karlin-mcgregor-2001
     product: _products/departmental/karlin-mcgregor-2001.parquet
 
   - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2015

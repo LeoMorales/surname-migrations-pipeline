@@ -4,6 +4,8 @@ _output
 */.ipynb_checkpoints/
 */__pycache__/*
 *.pyc
+.vscode/
 
 exploratory
+__task_notebooks
 _input_data
