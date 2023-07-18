@@ -10,11 +10,17 @@ def plot_comparative_choropleth_maps(
     upstream,
     product,
     departmentShapePath,
-    regionalView: str = "Argentina",
+    divisionalView: str = "Argentina",
     plotColumn: str = "fishers_alpha",
 ):
-    """
-    Dibuja un mapa por cada año para la columna especificada.
+    """Dibuja un mapa por cada año para la columna especificada.
+
+    Args:
+        upstream (_type_): Input.
+        product (_type_): Output.
+        departmentShapePath (str): Capa cartográfica de departamentos.
+        divisionalView (str, optional): Nombre de la región para filtrar departamentos, vale Argentina también. Defaults to "Argentina".
+        plotColumn (str, optional): Nombre del indicador a dibujar. Defaults to "fishers_alpha".
     """
     department_shp = geopandas.read_file(departmentShapePath)
     # read data
@@ -32,17 +38,33 @@ def plot_comparative_choropleth_maps(
     gdf_2021 = pandas.merge(
         department_shp, df_2021, left_on="departamento_id", right_on="department_id"
     )
-    # regionalView = ["NOA", "NEA", "Argentina"]
-    if regionalView == "Argentina":
+    # divisionalView = ["NOA", "NEA", "Argentina", "Chubut"]
+    if utils.isRegion(divisionalView):
+        if not ("region_nombre" in department_shp.columns):
+            raise ValueError(
+                f"Attempting to plot a regional map but `region_nombre` not found in provided shapefile"
+            )
+        plot_shape = department_shp[department_shp["region_nombre"] == divisionalView]
+        plot_gdf_2001 = gdf_2001[gdf_2001["region_nombre"] == divisionalView]
+        plot_gdf_2015 = gdf_2015[gdf_2015["region_nombre"] == divisionalView]
+        plot_gdf_2021 = gdf_2021[gdf_2021["region_nombre"] == divisionalView]
+    elif utils.isProvince(divisionalView):
+        if not ("provincia_nombre" in department_shp.columns):
+            raise ValueError(
+                f"Attempting to plot a regional map but `provincia_nombre` not found in provided shapefile"
+            )
+        plot_shape = department_shp[
+            department_shp["provincia_nombre"] == divisionalView
+        ]
+        plot_gdf_2001 = gdf_2001[gdf_2001["provincia_nombre"] == divisionalView]
+        plot_gdf_2015 = gdf_2015[gdf_2015["provincia_nombre"] == divisionalView]
+        plot_gdf_2021 = gdf_2021[gdf_2021["provincia_nombre"] == divisionalView]
+    else:
+        # divisionalView == "Argentina":
         plot_shape = department_shp
         plot_gdf_2001 = gdf_2001
         plot_gdf_2015 = gdf_2015
         plot_gdf_2021 = gdf_2021
-    else:
-        plot_shape = department_shp[department_shp["region_nombre"] == regionalView]
-        plot_gdf_2001 = gdf_2001[gdf_2001["region_nombre"] == regionalView]
-        plot_gdf_2015 = gdf_2015[gdf_2015["region_nombre"] == regionalView]
-        plot_gdf_2021 = gdf_2021[gdf_2021["region_nombre"] == regionalView]
 
     plot_gdf_2001 = plot_gdf_2001.dropna(subset=[plotColumn])
     plot_gdf_2015 = plot_gdf_2015.dropna(subset=[plotColumn])
@@ -64,7 +86,7 @@ def plot_comparative_choropleth_maps(
     ]
 
     f, axs = geovis.plot_comparative_choropleth_maps(
-        datasets_info=datasets_info,
+        plotDatasets=datasets_info,
         shape=plot_shape,
         plotColumn=plotColumn,
         gradientLabel=f"{plotColumn} value",
@@ -79,8 +101,8 @@ def plot_comparative_choropleth_maps(
     }
 
     f.suptitle(
-        f"Spatial trend of the value of {plotColumn} in {regionalView}",
-        y=title_ypositions.get(regionalView, 0.95),
+        f"Spatial trend of the value of {plotColumn} in {divisionalView}",
+        y=title_ypositions.get(divisionalView, 0.95),
         fontsize=28,
     )
 

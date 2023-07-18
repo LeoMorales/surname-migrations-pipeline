@@ -9,13 +9,43 @@ tasks:
     name: get-national-isonymy-2015
     product: _products/national/isonymy-2015.parquet
 
+  # Regional
   - source: tasks.regional.regional_isonymy.get_regional_isonymy_2015
     name: get-regional-isonymy-2015
     product: _products/regional/isonymy-2015.parquet
 
-  - source: tasks.provincial.provincial_isonymy.get_provincial_isonymy_2015
+  # Provincial
+  - source: tasks.provincial.indicators.get_provincial_isonymy_2015
     name: get-provincial-isonymy-2015
     product: _products/provincial/isonymy-2015.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_karlin_macgregor_2015
+    name: get-provincial-karlin-macgregor-2015
+    product: _products/provincial/karlin-macgregor-2015.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_wright_2015
+    name: get-provincial-wright-2015
+    product: _products/provincial/wright-2015.parquet
+
+  - source: tasks.provincial.indicators.get_isonymy_and_migration_indicators_2015
+    name: get-provincial-merged-indicators-2015
+    product: _products/provincial/merged-indicators-2015.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_isonymy_2021
+    name: get-provincial-isonymy-2021
+    product: _products/provincial/isonymy-2021.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_karlin_macgregor_2021
+    name: get-provincial-karlin-macgregor-2021
+    product: _products/provincial/karlin-macgregor-2021.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_wright_2021
+    name: get-provincial-wright-2021
+    product: _products/provincial/wright-2021.parquet
+
+  - source: tasks.provincial.indicators.get_isonymy_and_migration_indicators_2021
+    name: get-provincial-merged-indicators-2021
+    product: _products/provincial/merged-indicators-2021.parquet
 
   ## Departmental tasks:
   # Data
@@ -65,11 +95,20 @@ tasks:
     product: _products/departmental/merged-indicators-2021.parquet
 
   # VIS:
-  - source: tasks.departmental.vis_choropleths.plot_comparative_choropleth_maps
-    name: plot-comparative-choroplet-maps-[[regionalView]]-[[plotColumn]]
-    product: _products/departmental/vis-choropleth/[[regionalView]]/choropleth-[[plotColumn]]-[[regionalView]].png
+  - source: tasks.departmental.vis.choropleths.plot_comparative_choropleth_maps
+    name: plot-departmental-comparative-choropleth-maps-[[divisionalView]]-[[plotColumn]]
+    product: _products/departmental/vis-choropleth/[[divisionalView]]/choropleth-[[plotColumn]]-[[divisionalView]].png
     params:
       departmentShapePath: "{{DEPARTMENTS_MINIMAL_SHAPE_PATH}}"
     grid:
-      regionalView: ["Patagonia", "Argentina", "NOA", "NEA", "Centro", "Cuyo"]
-      plotColumn: ["m", "fst", "a", "b", "fishers_alpha"]
+      divisionalView: "{{divisional_list}}"
+      plotColumn: ["fst", "a", "b", "fishers_alpha", "v", "m"]
+
+  - source: tasks.provincial.vis.choropleths.plot_comparative_choropleth_maps
+    name: plot-provincial-comparative-choropleth-maps-[[regionalView]]-[[plotColumn]]
+    product: _products/provincial/vis-choropleth/[[regionalView]]/choropleth-[[plotColumn]]-[[regionalView]].png
+    params:
+      provincialShapePath: "{{PROVINCES_SHAPE_PATH}}"
+    grid:
+      regionalView: ["Argentina", "Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
+      plotColumn: ["fst", "a", "b", "fishers_alpha", "v", "m"]
