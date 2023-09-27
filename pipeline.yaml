@@ -81,7 +81,7 @@ tasks:
     name: get-departmental-wright-m-2021
     product: _products/departmental/wright-2021.parquet
 
-  # Combine
+  # Combine departmental data
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2001
     name: get-merged-indicators-2001
     product: _products/departmental/merged-indicators-2001.parquet
