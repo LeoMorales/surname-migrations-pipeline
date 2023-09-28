@@ -27,13 +27,13 @@ def get_ocurrences_log_plot_2015(upstream, product):
             region_surnames_df = df[df["region_nombre"] == regionName]
             region_surnames_df = region_surnames_df.reset_index(drop=True)
 
-        ocurr_vs_freq_df = isonymic.getOccurrencesVsFrequencies(
+        occur_vs_freq_df = isonymic.getOccurrencesVsFrequencies(
             region_surnames_df["surname"]
         )
 
         isonymic_vis.plotLogOcurrencesVsLogFrequencies(
-            ocurr_vs_freq_df["occurrences_log"],
-            ocurr_vs_freq_df["frecuency_log"],
+            occur_vs_freq_df["occurrences_log"],
+            occur_vs_freq_df["frecuency_log"],
             regionName,
             ax,
         )
@@ -42,24 +42,15 @@ def get_ocurrences_log_plot_2015(upstream, product):
         (
             _,
             surnames_with_minimal_frequency,
-            _,
-            surnames_with_maximal_frequency,
-        ) = isonymic.getSurnameFrequencies(region_surnames_df["surname"])
+            max_frequencies,
+            surnames_with_max_frequencies,
+        ) = isonymic.getSurnameFrequencies2(region_surnames_df["surname"])
 
         surnames_with_minimal_frequency_n = len(surnames_with_minimal_frequency)
-        surnames_with_maximal_frequency_n = len(surnames_with_maximal_frequency)
 
         selected_columns = ["frecuency_log", "occurrences_log"]
         y_min_freq, x_min_occur = (
-            ocurr_vs_freq_df.sort_values(by="occurrences_log", ascending=True)
-            .reset_index(drop=True)
-            .loc[0, selected_columns]
-            .to_dict()
-            .values()
-        )
-
-        y_max_freq, x_max_occur = (
-            ocurr_vs_freq_df.sort_values(by="occurrences_log", ascending=False)
+            occur_vs_freq_df.sort_values(by="occurrences_log", ascending=True)
             .reset_index(drop=True)
             .loc[0, selected_columns]
             .to_dict()
@@ -76,21 +67,30 @@ def get_ocurrences_log_plot_2015(upstream, product):
             arrowprops=dict(arrowstyle="->", color="lightgrey"),
         )
 
-        max_annotation = (
-            f"{surnames_with_maximal_frequency_n:,} surnames with max frecuency"
-        )
-        if surnames_with_maximal_frequency_n < 2:
-            # si es un solo apellido con el max de portadores, mostrarlo
-            max_annotation = f", ".join(surnames_with_maximal_frequency)
+        # 5 apellidos, 5 ocurrencias (las maximas):
+        for i, (occurence_i, surname_i) in enumerate(
+            zip(max_frequencies, surnames_with_max_frequencies)
+        ):
+            # con la ocurrencia de un apellido, buscar la frecuencia de dicha ocurrencia en el dataset ya procesado.
+            # serían las coordenadas en el plot
+            f = occur_vs_freq_df.loc[
+                occur_vs_freq_df["occurrences"] == occurence_i, "frecuency_log"
+            ]
+            y_max_freq_i = f[f.first_valid_index()]
 
-        ax.annotate(
-            max_annotation,
-            xy=(x_max_occur, y_max_freq),
-            xytext=(0.8, 0.2),
-            textcoords="axes fraction",
-            fontsize=10,
-            color="grey",
-            arrowprops=dict(arrowstyle="->", color="lightgrey"),
-        )
+            f = occur_vs_freq_df.loc[
+                occur_vs_freq_df["occurrences"] == occurence_i, "occurrences_log"
+            ]
+            x_max_occur_i = f[f.first_valid_index()]
+
+            ax.annotate(
+                surname_i,
+                xy=(x_max_occur_i, y_max_freq_i),
+                xytext=(0.85 - (0.05 * i), 0.6 - (0.07 * i)),
+                textcoords="axes fraction",
+                fontsize=6,
+                color="grey",
+                arrowprops=dict(arrowstyle="->", color="lightgrey"),
+            )
 
     plt.savefig(str(product))
