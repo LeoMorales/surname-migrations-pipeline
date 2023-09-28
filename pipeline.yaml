@@ -3,6 +3,11 @@
 # 3. Tarea para calcular distancias entre departamentos todos vs todos
 
 tasks:
+  # root get data task:
+  - source: tasks.get.get_surnames_2015
+    name: get-surnames-2015
+    product: _products/get/surnames-2015.parquet
+
   # Divisional tasks:
   # National:
   - source: tasks.national.national_isonymy.get_national_isonymy_2015
@@ -112,3 +117,13 @@ tasks:
     grid:
       regionalView: ["Argentina", "Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
       plotColumn: ["fst", "a", "b", "fishers_alpha", "v", "m"]
+
+  - source: tasks.national.vis.ocurrences.get_ocurrences_log_plot_2015
+    name: get-national-ocurrences-log-plot-2015
+    product: _products/national/vis/ocurrences/ocurrences-log-plot-2015.png
+
+  - source: tasks.regional.vis.ocurrences.get_ocurrences_log_plot_2015
+    name: get-regional-ocurrences-log-plot-2015-[[region]]
+    product: _products/regional/vis/ocurrences/log-plot-[[region]]-2015.png
+    grid:
+      region: ["Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
