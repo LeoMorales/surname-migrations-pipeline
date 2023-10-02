@@ -127,3 +127,9 @@ tasks:
     product: _products/regional/vis/ocurrences/log-plot-[[region]]-2015.png
     grid:
       region: ["Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
+
+  - source: tasks.provincial.vis.ocurrences.get_ocurrences_log_plot_2015
+    name: get-provincial-ocurrences-log-plot-2015-[[province]]
+    product: _products/provincial/vis/ocurrences/log-plot-[[province]]-2015.png
+    grid:
+      province: "{{provincial_list}}"

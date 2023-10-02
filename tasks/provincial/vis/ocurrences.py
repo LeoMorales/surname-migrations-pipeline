@@ -3,20 +3,20 @@ from surnames_package import utils, isonymic, isonymic_vis
 import matplotlib.pyplot as plt
 
 
-def get_ocurrences_log_plot_2015(upstream, product, region: str = "Patagonia"):
+def get_ocurrences_log_plot_2015(upstream, product, province: str = "Chubut"):
     df = pandas.read_parquet(str(upstream["get-surnames-2015"]))
     df = utils.append_cell_description(df, departmentCodeColumn="department_id")
 
-    if region not in df["region_nombre"].unique():
-        raise ValueError("La region indicada no se encuentra en el dataset")
+    if province not in df["provincia_nombre"].unique():
+        raise ValueError("La province indicada no se encuentra en el dataset")
 
-    region_df = df[df["region_nombre"] == region]
-    provinces_of_region = region_df["provincia_nombre"].unique()
+    province_df = df[df["provincia_nombre"] == province]
+    departments_of_province = province_df["departamento_nombre"].unique()
 
-    units = list(provinces_of_region) + [region]
+    units = list(departments_of_province) + [province]
 
-    number_of_plots_is_odd = len(units) % 2 != 0
-    ncols = 2
+    ncols = 3
+    number_of_plots_is_odd = len(units) % ncols != 0
     nrows = len(units) // ncols
     nrows = nrows + 1 if number_of_plots_is_odd else nrows
 
@@ -34,17 +34,20 @@ def get_ocurrences_log_plot_2015(upstream, product, region: str = "Patagonia"):
 
     font_size = 12
     for i, (unit_name_i, ax) in enumerate(zip(units, axes)):
-        if unit_name_i == region:
-            province_surnames_df = region_df
+        if unit_name_i == province:
+            department_surnames_df = province_df
         else:
-            province_surnames_df = region_df[
-                region_df["provincia_nombre"] == unit_name_i
+            department_surnames_df = province_df[
+                province_df["departamento_nombre"] == unit_name_i
             ]
-            province_surnames_df = province_surnames_df.reset_index(drop=True)
+            department_surnames_df = department_surnames_df.reset_index(drop=True)
 
         occur_vs_freq_df = isonymic.getOccurrencesVsFrequencies(
-            province_surnames_df["surname"]
+            department_surnames_df["surname"]
         )
+
+        s_value = len(department_surnames_df["surname"].unique())
+        n_value = len(department_surnames_df)
 
         its_last_item = i == len(units) - 1
         isonymic_vis.plotLogOcurrencesVsLogFrequencies(
@@ -52,7 +55,8 @@ def get_ocurrences_log_plot_2015(upstream, product, region: str = "Patagonia"):
             occur_vs_freq_df["frecuency_log"],
             unit_name_i[:16],
             ax,
-            main_annotation_fontsize=(font_size + 5) if its_last_item else font_size,
+            main_annotation_fontsize=(font_size + 8) if its_last_item else font_size,
+            subtitle_annotation=f"n = {n_value:,}\ns = {s_value:,}",
         )
 
         # Add text to the top-right position
@@ -61,7 +65,7 @@ def get_ocurrences_log_plot_2015(upstream, product, region: str = "Patagonia"):
             surnames_with_minimal_frequency,
             max_frequencies,
             surnames_with_max_frequencies,
-        ) = isonymic.getSurnameFrequencies2(province_surnames_df["surname"])
+        ) = isonymic.getSurnameFrequencies2(department_surnames_df["surname"])
 
         surnames_with_minimal_frequency_n = len(surnames_with_minimal_frequency)
 
@@ -92,30 +96,37 @@ def get_ocurrences_log_plot_2015(upstream, product, region: str = "Patagonia"):
             arrowprops=dict(arrowstyle="->", color="lightgrey"),
         )
 
-        for i, (frequency_i, surname_i) in enumerate(
+        for i, (occurrence_i, surname_i) in enumerate(
             zip(max_frequencies[:3], surnames_with_max_frequencies[:3])
         ):
             f = occur_vs_freq_df.loc[
-                occur_vs_freq_df["occurrences"] == frequency_i, "frecuency_log"
+                occur_vs_freq_df["occurrences"] == occurrence_i, "frecuency_log"
             ]
             y_max_freq = f[f.first_valid_index()]
 
             f = occur_vs_freq_df.loc[
-                occur_vs_freq_df["occurrences"] == frequency_i, "occurrences_log"
+                occur_vs_freq_df["occurrences"] == occurrence_i, "occurrences_log"
             ]
             x_max_occur = f[f.first_valid_index()]
 
             ax.annotate(
-                surname_i,
+                f"{surname_i} ({occurrence_i})",
                 xy=(x_max_occur, y_max_freq),
-                xytext=(0.8 - (0.1 * i), 0.4 - (0.1 * i)),
+                xytext=(0.85 - (0.1 * i), 0.25 + (0.045 * i)),
                 textcoords="axes fraction",
-                fontsize=8,
+                fontsize=6,
                 color="grey",
-                arrowprops=dict(arrowstyle="->", color="lightgrey"),
+                horizontalalignment="left",
+                verticalalignment="center_baseline",
+                arrowprops=dict(
+                    arrowstyle="->",
+                    color="lightgrey",
+                    connectionstyle="arc3,rad=-0.2",
+                ),
             )
 
     if number_of_plots_is_odd:
-        axes[-1].remove()
+        for ax_to_delete in range(len(units), nrows * ncols):
+            axes[ax_to_delete].remove()
 
     plt.savefig(str(product))
