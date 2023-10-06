@@ -3,10 +3,15 @@
 # 3. Tarea para calcular distancias entre departamentos todos vs todos
 
 tasks:
-  # root get data task:
+  # root task: get data #1:
   - source: tasks.get.get_surnames_2015
     name: get-surnames-2015
     product: _products/get/surnames-2015.parquet
+
+  # root task: get data #2:
+  - source: tasks.get.get_surnames_2021
+    name: get-surnames-2021
+    product: _products/get/surnames-2021.parquet
 
   # Divisional tasks:
   # National:
@@ -133,3 +138,32 @@ tasks:
     product: _products/provincial/vis/ocurrences/log-plot-[[province]]-2015.png
     grid:
       province: "{{provincial_list}}"
+
+  - source: tasks.provincial.vis.ocurrences.get_ocurrences_log_plot_2021
+    name: get-provincial-ocurrences-log-plot-2021-[[province]]
+    product: _products/provincial/vis/ocurrences/log-plot-[[province]]-2021.png
+    grid:
+      province: "{{provincial_list}}"
+
+  - source: tasks.national.vis.ocurrences.get_ocurrences_log_plot_2021
+    name: get-national-ocurrences-log-plot-2021
+    product: _products/national/vis/ocurrences/ocurrences-log-plot-2021.png
+
+  - source: tasks.regional.vis.ocurrences.get_ocurrences_log_plot_2021
+    name: get-regional-ocurrences-log-plot-2021-[[region]]
+    product: _products/regional/vis/ocurrences/log-plot-[[region]]-2021.png
+    grid:
+      region: ["Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
+
+  # Linear Regressions:
+  - source: tasks.regional.linear_regression.get_linear_regression_params_2015
+    name: get-regional-linear-regression-params-2015
+    product: _products/regional/linear-regression-params-2015.parquet
+
+  - source: tasks.departmental.linear_regression.get_linear_regression_params_2015
+    name: get-departmental-linear-regression-params-2015
+    product: _products/departmental/linear-regression-params-2015.parquet
+
+  - source: tasks.provincial.linear_regression.get_linear_regression_params_2015
+    name: get-provincial-linear-regression-params-2015
+    product: _products/provincial/linear-regression-params-2015.parquet

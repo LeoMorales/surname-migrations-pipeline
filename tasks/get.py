@@ -10,3 +10,11 @@ def get_surnames_2015(product):
     )
 
     df.to_parquet(str(product))
+
+
+def get_surnames_2021(product):
+    df = pandas.read_parquet(
+        "/home/lmorales/work/pipelines/surname_data_pipeline/_products/clean/surnames_2021.parquet"
+    )
+
+    df.to_parquet(str(product))
