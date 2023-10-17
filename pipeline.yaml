@@ -160,10 +160,23 @@ tasks:
     name: get-regional-linear-regression-params-2015
     product: _products/regional/linear-regression-params-2015.parquet
 
+  - source: tasks.provincial.linear_regression.get_linear_regression_params_2015
+    name: get-provincial-linear-regression-params-2015
+    product: _products/provincial/linear-regression-params-2015.parquet
+
   - source: tasks.departmental.linear_regression.get_linear_regression_params_2015
     name: get-departmental-linear-regression-params-2015
     product: _products/departmental/linear-regression-params-2015.parquet
 
-  - source: tasks.provincial.linear_regression.get_linear_regression_params_2015
-    name: get-provincial-linear-regression-params-2015
-    product: _products/provincial/linear-regression-params-2015.parquet
+  - source: tasks.regional.linear_regression.get_linear_regression_params_2021
+    name: get-regional-linear-regression-params-2021
+    product: _products/regional/linear-regression-params-2021.parquet
+
+  - source: tasks.provincial.linear_regression.get_linear_regression_params_2021
+    name: get-provincial-linear-regression-params-2021
+    product: _products/provincial/linear-regression-params-2021.parquet
+
+  - source: tasks.departmental.linear_regression.get_linear_regression_params_2021
+    name: get-departmental-linear-regression-params-2021
+    product: _products/departmental/linear-regression-params-2021.parquet
+
