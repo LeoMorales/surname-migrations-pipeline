@@ -180,3 +180,51 @@ tasks:
     name: get-departmental-linear-regression-params-2021
     product: _products/departmental/linear-regression-params-2021.parquet
 
+  # bearer tasks
+  - source: tasks.national.national_isonymy.get_national_bearers_rankings_2015
+    name: get-national-bearers-rankings-2015
+    product: 
+      surnames-with-highest-number-of-bearers: _products/national/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: _products/national/bearers/surnames-with-only-one-bearer-2015.parquet
+
+  - source: tasks.national.national_isonymy.get_national_bearers_rankings_2021
+    name: get-national-bearers-rankings-2021
+    product: 
+      surnames-with-highest-number-of-bearers: _products/national/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: _products/national/bearers/surnames-with-only-one-bearer-2021.parquet
+
+  - source: tasks.regional.regional_isonymy.get_regional_bearers_rankings_2015
+    name: get-regional-bearers-rankings-2015
+    product: 
+      surnames-with-highest-number-of-bearers: _products/regional/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: _products/regional/bearers/surnames-with-only-one-bearer-2015.parquet
+
+  - source: tasks.regional.regional_isonymy.get_regional_bearers_rankings_2021
+    name: get-regional-bearers-rankings-2021
+    product: 
+      surnames-with-highest-number-of-bearers: _products/regional/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: _products/regional/bearers/surnames-with-only-one-bearer-2021.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_bearers_rankings_2015
+    name: get-provincial-bearers-rankings-2015
+    product: 
+      surnames-with-highest-number-of-bearers: _products/provincial/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: _products/provincial/bearers/surnames-with-only-one-bearer-2015.parquet
+
+  - source: tasks.provincial.indicators.get_provincial_bearers_rankings_2021
+    name: get-provincial-bearers-rankings-2021
+    product: 
+      surnames-with-highest-number-of-bearers: _products/provincial/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: _products/provincial/bearers/surnames-with-only-one-bearer-2021.parquet
+
+  - source: tasks.departmental.isonymy.get_departmental_bearers_rankings_2015
+    name: get-departmental-bearers-rankings-2015
+    product: 
+      surnames-with-highest-number-of-bearers: _products/departmental/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: _products/departmental/bearers/surnames-with-only-one-bearer-2015.parquet
+
+  - source: tasks.departmental.isonymy.get_departmental_bearers_rankings_2021
+    name: get-departmental-bearers-rankings-2021
+    product: 
+      surnames-with-highest-number-of-bearers: _products/departmental/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: _products/departmental/bearers/surnames-with-only-one-bearer-2021.parquet

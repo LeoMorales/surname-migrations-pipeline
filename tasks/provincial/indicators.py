@@ -207,3 +207,89 @@ def get_isonymy_and_migration_indicators_2021(upstream, product):
 
     provincial_df = provincial_df[col_order]
     provincial_df.to_parquet(str(product))
+
+
+def get_provincial_bearers_rankings_2015(upstream, product):
+    """Obtiene los rankings de apellidos con mas cantidad de portadores y el ranking (top1) de los apellidos con un solo portador.
+
+    Args:
+        upstream (_type_): _description_
+        product (_type_): _description_
+    """
+    df = pandas.read_parquet(str(upstream["get-surnames-2015"]))
+    df = utils.append_cell_description(df, departmentCodeColumn="department_id")
+
+    highest_number_of_bearers_dfs_list = []
+    only_one_bearer_dfs_list = []
+    for province_id, province_df in df.groupby("province_id"):
+        (
+            highest_number_of_bearers,
+            only_one_bearer,
+        ) = isonymic.getSurnamesWithTheHighestNumberOfBearersAndThoseWithOnlyOneBearer(
+            province_df["surname"],
+            division_level="province",
+            division_id=province_id,
+        )
+
+        highest_number_of_bearers["year"] = "2015"
+        only_one_bearer["year"] = "2015"
+
+        highest_number_of_bearers_dfs_list.append(highest_number_of_bearers)
+        only_one_bearer_dfs_list.append(only_one_bearer)
+
+    provincial_highest_number_of_bearers = pandas.concat(
+        highest_number_of_bearers_dfs_list
+    ).reset_index(drop=True)
+    provincial_only_one_bearer_df = pandas.concat(only_one_bearer_dfs_list).reset_index(
+        drop=True
+    )
+
+    provincial_highest_number_of_bearers.to_parquet(
+        str(product["surnames-with-highest-number-of-bearers"])
+    )
+    provincial_only_one_bearer_df.to_parquet(
+        str(product["surnames-with-only-one-bearer"])
+    )
+
+
+def get_provincial_bearers_rankings_2021(upstream, product):
+    """Obtiene los rankings de apellidos con mas cantidad de portadores y el ranking (top1) de los apellidos con un solo portador.
+
+    Args:
+        upstream (_type_): _description_
+        product (_type_): _description_
+    """
+    df = pandas.read_parquet(str(upstream["get-surnames-2021"]))
+    df = utils.append_cell_description(df, departmentCodeColumn="department_id")
+
+    highest_number_of_bearers_dfs_list = []
+    only_one_bearer_dfs_list = []
+    for province_id, province_df in df.groupby("province_id"):
+        (
+            highest_number_of_bearers,
+            only_one_bearer,
+        ) = isonymic.getSurnamesWithTheHighestNumberOfBearersAndThoseWithOnlyOneBearer(
+            province_df["surname"],
+            division_level="province",
+            division_id=province_id,
+        )
+
+        highest_number_of_bearers["year"] = "2021"
+        only_one_bearer["year"] = "2021"
+
+        highest_number_of_bearers_dfs_list.append(highest_number_of_bearers)
+        only_one_bearer_dfs_list.append(only_one_bearer)
+
+    provincial_highest_number_of_bearers = pandas.concat(
+        highest_number_of_bearers_dfs_list
+    ).reset_index(drop=True)
+    provincial_only_one_bearer_df = pandas.concat(only_one_bearer_dfs_list).reset_index(
+        drop=True
+    )
+
+    provincial_highest_number_of_bearers.to_parquet(
+        str(product["surnames-with-highest-number-of-bearers"])
+    )
+    provincial_only_one_bearer_df.to_parquet(
+        str(product["surnames-with-only-one-bearer"])
+    )
