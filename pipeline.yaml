@@ -13,6 +13,11 @@ tasks:
     name: get-surnames-2021
     product: _products/get/surnames-2021.parquet
 
+  # root task: get data #2:
+  - source: tasks.get.get_origin_labels
+    name: get-origin-labels
+    product: _products/get/origin-labels.parquet
+
   # Divisional tasks:
   # National:
   - source: tasks.national.national_isonymy.get_national_isonymy_2015
@@ -228,3 +233,36 @@ tasks:
     product: 
       surnames-with-highest-number-of-bearers: _products/departmental/bearers/surnames-with-highest-number-of-bearers-2021.parquet
       surnames-with-only-one-bearer: _products/departmental/bearers/surnames-with-only-one-bearer-2021.parquet
+
+  # bearer tasks --> origins
+  - source: tasks.national.origins.assign_origin_tag_to_popular_surnames_2015
+    name: assign-origin-tag-to-popular-surnames-national-2015
+    product: _products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+
+  - source: tasks.national.origins.assign_origin_tag_to_popular_surnames_2021
+    name: assign-origin-tag-to-popular-surnames-national-2021
+    product: _products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+
+  - source: tasks.regional.origins.assign_origin_tag_to_popular_surnames_2015
+    name: assign-origin-tag-to-popular-surnames-regional-2015
+    product: _products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+
+  - source: tasks.regional.origins.assign_origin_tag_to_popular_surnames_2021
+    name: assign-origin-tag-to-popular-surnames-regional-2021
+    product: _products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+
+  - source: tasks.provincial.origins.assign_origin_tag_to_popular_surnames_2015
+    name: assign-origin-tag-to-popular-surnames-provincial-2015
+    product: _products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+
+  - source: tasks.provincial.origins.assign_origin_tag_to_popular_surnames_2021
+    name: assign-origin-tag-to-popular-surnames-provincial-2021
+    product: _products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+
+  - source: tasks.departmental.origins.assign_origin_tag_to_popular_surnames_2015
+    name: assign-origin-tag-to-popular-surnames-departmental-2015
+    product: _products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+
+  - source: tasks.departmental.origins.assign_origin_tag_to_popular_surnames_2021
+    name: assign-origin-tag-to-popular-surnames-departmental-2021
+    product: _products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet

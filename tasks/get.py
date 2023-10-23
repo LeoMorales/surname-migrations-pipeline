@@ -18,3 +18,12 @@ def get_surnames_2021(product):
     )
 
     df.to_parquet(str(product))
+
+
+def get_origin_labels(product):
+    labels_df = pandas.read_csv(
+        "/home/lmorales/work/pipelines/ml_surnames_pipeline/_products/get/labels.csv"
+    )
+
+    labels_df.drop(columns=[labels_df.columns[0]])
+    labels_df.to_parquet(str(product))
