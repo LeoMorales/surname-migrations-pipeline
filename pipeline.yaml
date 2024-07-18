@@ -6,122 +6,123 @@ tasks:
   # root task: get data #1:
   - source: tasks.get.get_surnames_2015
     name: get-surnames-2015
-    product: _products/get/surnames-2015.parquet
+    product: products/get/surnames-2015.parquet
 
   # root task: get data #2:
   - source: tasks.get.get_surnames_2021
     name: get-surnames-2021
-    product: _products/get/surnames-2021.parquet
+    product: products/get/surnames-2021.parquet
 
   # root task: get data #2:
   - source: tasks.get.get_origin_labels
     name: get-origin-labels
-    product: _products/get/origin-labels.parquet
+    product: products/get/origin-labels.parquet
 
   # Divisional tasks:
   # National:
   - source: tasks.national.national_isonymy.get_national_isonymy_2015
     name: get-national-isonymy-2015
-    product: _products/national/isonymy-2015.parquet
+    product: products/national/isonymy-2015.parquet
 
   # Regional
   - source: tasks.regional.regional_isonymy.get_regional_isonymy_2015
     name: get-regional-isonymy-2015
-    product: _products/regional/isonymy-2015.parquet
+    product: products/regional/isonymy-2015.parquet
 
   # Provincial
   - source: tasks.provincial.indicators.get_provincial_isonymy_2015
     name: get-provincial-isonymy-2015
-    product: _products/provincial/isonymy-2015.parquet
+    product: products/provincial/isonymy-2015.parquet
 
   - source: tasks.provincial.indicators.get_provincial_karlin_macgregor_2015
     name: get-provincial-karlin-macgregor-2015
-    product: _products/provincial/karlin-macgregor-2015.parquet
+    product: products/provincial/karlin-macgregor-2015.parquet
 
   - source: tasks.provincial.indicators.get_provincial_wright_2015
     name: get-provincial-wright-2015
-    product: _products/provincial/wright-2015.parquet
+    product: products/provincial/wright-2015.parquet
 
   - source: tasks.provincial.indicators.get_isonymy_and_migration_indicators_2015
     name: get-provincial-merged-indicators-2015
-    product: _products/provincial/merged-indicators-2015.parquet
+    product: products/provincial/merged-indicators-2015.parquet
 
   - source: tasks.provincial.indicators.get_provincial_isonymy_2021
     name: get-provincial-isonymy-2021
-    product: _products/provincial/isonymy-2021.parquet
+    product: products/provincial/isonymy-2021.parquet
 
   - source: tasks.provincial.indicators.get_provincial_karlin_macgregor_2021
     name: get-provincial-karlin-macgregor-2021
-    product: _products/provincial/karlin-macgregor-2021.parquet
+    product: products/provincial/karlin-macgregor-2021.parquet
 
   - source: tasks.provincial.indicators.get_provincial_wright_2021
     name: get-provincial-wright-2021
-    product: _products/provincial/wright-2021.parquet
+    product: products/provincial/wright-2021.parquet
 
   - source: tasks.provincial.indicators.get_isonymy_and_migration_indicators_2021
     name: get-provincial-merged-indicators-2021
-    product: _products/provincial/merged-indicators-2021.parquet
+    product: products/provincial/merged-indicators-2021.parquet
 
   ## Departmental tasks:
   # Data
   - source: tasks.departmental.isonymy.get_departmental_isonymy_2015
     name: get-departmental-isonymy-2015
-    product: _products/departmental/isonymy-2015.parquet
+    product: products/departmental/isonymy-2015.parquet
 
   - source: tasks.departmental.isonymy.get_departmental_isonymy_2021
     name: get-departmental-isonymy-2021
-    product: _products/departmental/isonymy-2021.parquet
+    product: products/departmental/isonymy-2021.parquet
 
   - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2001
     name: get-departmental-karlin-mcgregor-2001
-    product: _products/departmental/karlin-mcgregor-2001.parquet
+    product: products/departmental/karlin-mcgregor-2001.parquet
 
   - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2015
     name: get-departmental-karlin-mcgregor-2015
-    product: _products/departmental/karlin-mcgregor-2015.parquet
+    product: products/departmental/karlin-mcgregor-2015.parquet
 
   - source: tasks.departmental.karlin_mcgregor.get_departmental_karlin_mcgregor_2021
     name: get-departmental-karlin-mcgregor-2021
-    product: _products/departmental/karlin-mcgregor-2021.parquet
+    product: products/departmental/karlin-mcgregor-2021.parquet
 
   - source: tasks.departmental.wright.get_departmental_wright_m_2001
     name: get-departmental-wright-m-2001
-    product: _products/departmental/wright-2001.parquet
+    product: products/departmental/wright-2001.parquet
 
   - source: tasks.departmental.wright.get_departmental_wright_m_2015
     name: get-departmental-wright-m-2015
-    product: _products/departmental/wright-2015.parquet
+    product: products/departmental/wright-2015.parquet
 
   - source: tasks.departmental.wright.get_departmental_wright_m_2021
     name: get-departmental-wright-m-2021
-    product: _products/departmental/wright-2021.parquet
+    product: products/departmental/wright-2021.parquet
 
   # Combine departmental data
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2001
     name: get-merged-indicators-2001
-    product: _products/departmental/merged-indicators-2001.parquet
+    product: products/departmental/merged-indicators-2001.parquet
 
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2015
     name: get-merged-indicators-2015
-    product: _products/departmental/merged-indicators-2015.parquet
+    product: products/departmental/merged-indicators-2015.parquet
 
   - source: tasks.departmental.merge.get_isonymy_and_migration_indicators_2021
     name: get-merged-indicators-2021
-    product: _products/departmental/merged-indicators-2021.parquet
+    product: products/departmental/merged-indicators-2021.parquet
 
   # VIS:
   - source: tasks.departmental.vis.choropleths.plot_comparative_choropleth_maps
     name: plot-departmental-comparative-choropleth-maps-[[divisionalView]]-[[plotColumn]]
-    product: _products/departmental/vis-choropleth/[[divisionalView]]/choropleth-[[plotColumn]]-[[divisionalView]].png
+    product: products/departmental/vis-choropleth/[[divisionalView]]/choropleth-[[plotColumn]]-[[divisionalView]].png
     params:
       departmentShapePath: "{{DEPARTMENTS_MINIMAL_SHAPE_PATH}}"
+      population_threshold: 10
     grid:
       divisionalView: "{{divisional_list}}"
-      plotColumn: ["fst", "a", "b", "fishers_alpha", "v", "m"]
+      plotColumn: ["m", "fst", "a", "b", "fishers_alpha", "v", ]
 
   - source: tasks.provincial.vis.choropleths.plot_comparative_choropleth_maps
     name: plot-provincial-comparative-choropleth-maps-[[regionalView]]-[[plotColumn]]
-    product: _products/provincial/vis-choropleth/[[regionalView]]/choropleth-[[plotColumn]]-[[regionalView]].png
+    product: products/provincial/vis-choropleth/[[regionalView]]/choropleth-[[plotColumn]]-[[regionalView]].png
     params:
       provincialShapePath: "{{PROVINCES_SHAPE_PATH}}"
     grid:
@@ -130,139 +131,174 @@ tasks:
 
   - source: tasks.national.vis.ocurrences.get_ocurrences_log_plot_2015
     name: get-national-ocurrences-log-plot-2015
-    product: _products/national/vis/ocurrences/ocurrences-log-plot-2015.png
+    product: products/national/vis/ocurrences/ocurrences-log-plot-2015.png
 
   - source: tasks.regional.vis.ocurrences.get_ocurrences_log_plot_2015
     name: get-regional-ocurrences-log-plot-2015-[[region]]
-    product: _products/regional/vis/ocurrences/log-plot-[[region]]-2015.png
+    product: products/regional/vis/ocurrences/log-plot-[[region]]-2015.png
     grid:
       region: ["Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
 
+  # VIS & Moran
+  - source: tasks.departmental.vis.moran.plot_moran_clustermap_2001_2021
+    name: plot-moran-clustermaps-[[regionName]]-[[analysisColumn]]
+    product: products/departmental/moran/clustermap-[[regionName]]-[[analysisColumn]].png
+    params:
+      departmentShapePath: "{{DEPARTMENTS_MINIMAL_SHAPE_PATH}}"
+    grid:
+      regionName: ["Argentina"]
+      analysisColumn: ["m", "v", "a", "fishers_alpha"]
+
+  # VIS & scatterplot
   - source: tasks.provincial.vis.ocurrences.get_ocurrences_log_plot_2015
     name: get-provincial-ocurrences-log-plot-2015-[[province]]
-    product: _products/provincial/vis/ocurrences/log-plot-[[province]]-2015.png
+    product: products/provincial/vis/ocurrences/log-plot-[[province]]-2015.png
     grid:
       province: "{{provincial_list}}"
 
   - source: tasks.provincial.vis.ocurrences.get_ocurrences_log_plot_2021
     name: get-provincial-ocurrences-log-plot-2021-[[province]]
-    product: _products/provincial/vis/ocurrences/log-plot-[[province]]-2021.png
+    product: products/provincial/vis/ocurrences/log-plot-[[province]]-2021.png
     grid:
       province: "{{provincial_list}}"
 
   - source: tasks.national.vis.ocurrences.get_ocurrences_log_plot_2021
     name: get-national-ocurrences-log-plot-2021
-    product: _products/national/vis/ocurrences/ocurrences-log-plot-2021.png
+    product: products/national/vis/ocurrences/ocurrences-log-plot-2021.png
 
   - source: tasks.regional.vis.ocurrences.get_ocurrences_log_plot_2021
     name: get-regional-ocurrences-log-plot-2021-[[region]]
-    product: _products/regional/vis/ocurrences/log-plot-[[region]]-2021.png
+    product: products/regional/vis/ocurrences/log-plot-[[region]]-2021.png
     grid:
       region: ["Patagonia", "NOA", "NEA", "Centro", "Cuyo"]
 
   # Linear Regressions:
   - source: tasks.regional.linear_regression.get_linear_regression_params_2015
     name: get-regional-linear-regression-params-2015
-    product: _products/regional/linear-regression-params-2015.parquet
+    product: products/regional/linear-regression-params-2015.parquet
 
   - source: tasks.provincial.linear_regression.get_linear_regression_params_2015
     name: get-provincial-linear-regression-params-2015
-    product: _products/provincial/linear-regression-params-2015.parquet
+    product: products/provincial/linear-regression-params-2015.parquet
 
   - source: tasks.departmental.linear_regression.get_linear_regression_params_2015
     name: get-departmental-linear-regression-params-2015
-    product: _products/departmental/linear-regression-params-2015.parquet
+    product: products/departmental/linear-regression-params-2015.parquet
 
   - source: tasks.regional.linear_regression.get_linear_regression_params_2021
     name: get-regional-linear-regression-params-2021
-    product: _products/regional/linear-regression-params-2021.parquet
+    product: products/regional/linear-regression-params-2021.parquet
 
   - source: tasks.provincial.linear_regression.get_linear_regression_params_2021
     name: get-provincial-linear-regression-params-2021
-    product: _products/provincial/linear-regression-params-2021.parquet
+    product: products/provincial/linear-regression-params-2021.parquet
 
   - source: tasks.departmental.linear_regression.get_linear_regression_params_2021
     name: get-departmental-linear-regression-params-2021
-    product: _products/departmental/linear-regression-params-2021.parquet
+    product: products/departmental/linear-regression-params-2021.parquet
 
   # bearer tasks
   - source: tasks.national.national_isonymy.get_national_bearers_rankings_2015
     name: get-national-bearers-rankings-2015
     product: 
-      surnames-with-highest-number-of-bearers: _products/national/bearers/surnames-with-highest-number-of-bearers-2015.parquet
-      surnames-with-only-one-bearer: _products/national/bearers/surnames-with-only-one-bearer-2015.parquet
+      surnames-with-highest-number-of-bearers: products/national/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: products/national/bearers/surnames-with-only-one-bearer-2015.parquet
 
   - source: tasks.national.national_isonymy.get_national_bearers_rankings_2021
     name: get-national-bearers-rankings-2021
     product: 
-      surnames-with-highest-number-of-bearers: _products/national/bearers/surnames-with-highest-number-of-bearers-2021.parquet
-      surnames-with-only-one-bearer: _products/national/bearers/surnames-with-only-one-bearer-2021.parquet
+      surnames-with-highest-number-of-bearers: products/national/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: products/national/bearers/surnames-with-only-one-bearer-2021.parquet
 
   - source: tasks.regional.regional_isonymy.get_regional_bearers_rankings_2015
     name: get-regional-bearers-rankings-2015
     product: 
-      surnames-with-highest-number-of-bearers: _products/regional/bearers/surnames-with-highest-number-of-bearers-2015.parquet
-      surnames-with-only-one-bearer: _products/regional/bearers/surnames-with-only-one-bearer-2015.parquet
+      surnames-with-highest-number-of-bearers: products/regional/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: products/regional/bearers/surnames-with-only-one-bearer-2015.parquet
 
   - source: tasks.regional.regional_isonymy.get_regional_bearers_rankings_2021
     name: get-regional-bearers-rankings-2021
     product: 
-      surnames-with-highest-number-of-bearers: _products/regional/bearers/surnames-with-highest-number-of-bearers-2021.parquet
-      surnames-with-only-one-bearer: _products/regional/bearers/surnames-with-only-one-bearer-2021.parquet
+      surnames-with-highest-number-of-bearers: products/regional/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: products/regional/bearers/surnames-with-only-one-bearer-2021.parquet
 
   - source: tasks.provincial.indicators.get_provincial_bearers_rankings_2015
     name: get-provincial-bearers-rankings-2015
     product: 
-      surnames-with-highest-number-of-bearers: _products/provincial/bearers/surnames-with-highest-number-of-bearers-2015.parquet
-      surnames-with-only-one-bearer: _products/provincial/bearers/surnames-with-only-one-bearer-2015.parquet
+      surnames-with-highest-number-of-bearers: products/provincial/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: products/provincial/bearers/surnames-with-only-one-bearer-2015.parquet
 
   - source: tasks.provincial.indicators.get_provincial_bearers_rankings_2021
     name: get-provincial-bearers-rankings-2021
     product: 
-      surnames-with-highest-number-of-bearers: _products/provincial/bearers/surnames-with-highest-number-of-bearers-2021.parquet
-      surnames-with-only-one-bearer: _products/provincial/bearers/surnames-with-only-one-bearer-2021.parquet
+      surnames-with-highest-number-of-bearers: products/provincial/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: products/provincial/bearers/surnames-with-only-one-bearer-2021.parquet
 
   - source: tasks.departmental.isonymy.get_departmental_bearers_rankings_2015
     name: get-departmental-bearers-rankings-2015
     product: 
-      surnames-with-highest-number-of-bearers: _products/departmental/bearers/surnames-with-highest-number-of-bearers-2015.parquet
-      surnames-with-only-one-bearer: _products/departmental/bearers/surnames-with-only-one-bearer-2015.parquet
+      surnames-with-highest-number-of-bearers: products/departmental/bearers/surnames-with-highest-number-of-bearers-2015.parquet
+      surnames-with-only-one-bearer: products/departmental/bearers/surnames-with-only-one-bearer-2015.parquet
 
   - source: tasks.departmental.isonymy.get_departmental_bearers_rankings_2021
     name: get-departmental-bearers-rankings-2021
     product: 
-      surnames-with-highest-number-of-bearers: _products/departmental/bearers/surnames-with-highest-number-of-bearers-2021.parquet
-      surnames-with-only-one-bearer: _products/departmental/bearers/surnames-with-only-one-bearer-2021.parquet
+      surnames-with-highest-number-of-bearers: products/departmental/bearers/surnames-with-highest-number-of-bearers-2021.parquet
+      surnames-with-only-one-bearer: products/departmental/bearers/surnames-with-only-one-bearer-2021.parquet
 
   # bearer tasks --> origins
   - source: tasks.national.origins.assign_origin_tag_to_popular_surnames_2015
     name: assign-origin-tag-to-popular-surnames-national-2015
-    product: _products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+    product: products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
 
   - source: tasks.national.origins.assign_origin_tag_to_popular_surnames_2021
     name: assign-origin-tag-to-popular-surnames-national-2021
-    product: _products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+    product: products/national/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
 
   - source: tasks.regional.origins.assign_origin_tag_to_popular_surnames_2015
     name: assign-origin-tag-to-popular-surnames-regional-2015
-    product: _products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+    product: products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
 
   - source: tasks.regional.origins.assign_origin_tag_to_popular_surnames_2021
     name: assign-origin-tag-to-popular-surnames-regional-2021
-    product: _products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+    product: products/regional/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
 
   - source: tasks.provincial.origins.assign_origin_tag_to_popular_surnames_2015
     name: assign-origin-tag-to-popular-surnames-provincial-2015
-    product: _products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+    product: products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
 
   - source: tasks.provincial.origins.assign_origin_tag_to_popular_surnames_2021
     name: assign-origin-tag-to-popular-surnames-provincial-2021
-    product: _products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+    product: products/provincial/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
 
   - source: tasks.departmental.origins.assign_origin_tag_to_popular_surnames_2015
     name: assign-origin-tag-to-popular-surnames-departmental-2015
-    product: _products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
+    product: products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2015.parquet
 
   - source: tasks.departmental.origins.assign_origin_tag_to_popular_surnames_2021
     name: assign-origin-tag-to-popular-surnames-departmental-2021
-    product: _products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+    product: products/departmental/bearers/origins-for-surnames-with-highest-number-of-bearers-2021.parquet
+
+  - source: tasks.departmental.origins.assign_origin_label_to_single_bearer_surnames_2015
+    name: departmental-assign-origin-label-to-single-bearer-surnames-2015
+    product: products/departmental/bearers/origin-label-to-single-bearer-surnames-2015.parquet
+
+  - source: tasks.departmental.origins.assign_origin_label_to_single_bearer_surnames_2021
+    name: departmental-assign-origin-label-to-single-bearer-surnames-2021
+    product: products/departmental/bearers/origin-label-to-single-bearer-surnames-2021.parquet
+  
+  - source: tasks.national.origins.assign_origin_label_to_single_bearer_surnames_2015
+    name: national-assign-origin-label-to-single-bearer-surnames-2015
+    product: products/national/bearers/origin-label-to-single-bearer-surnames-2015.parquet
+
+  - source: tasks.national.origins.assign_origin_label_to_single_bearer_surnames_2021
+    name: national-assign-origin-label-to-single-bearer-surnames-2021
+    product: products/national/bearers/origin-label-to-single-bearer-surnames-2021.parquet
+
+  - source: tasks.regional.origins.assign_origin_label_to_single_bearer_surnames_2015
+    name: regional-assign-origin-label-to-single-bearer-surnames-2015
+    product: products/regional/bearers/origin-label-to-single-bearer-surnames-2015.parquet
+
+  - source: tasks.regional.origins.assign_origin_label_to_single_bearer_surnames_2021
+    name: regional-assign-origin-label-to-single-bearer-surnames-2021
+    product: products/regional/bearers/origin-label-to-single-bearer-surnames-2021.parquet

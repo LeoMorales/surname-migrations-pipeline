@@ -5,11 +5,9 @@ from surnames_package import utils
 DF_COLUMNS = ["division", "n", "ins", "fst", "fishers_alpha", "A", "B"]
 
 
-def get_departmental_isonymy_2015(product):
+def get_departmental_isonymy_2015(upstream, product):
     """"""
-    df = pandas.read_parquet(
-        "/home/lmorales/work/pipelines/surname_data_pipeline/_products/clean/surnames_2015.parquet"
-    )
+    df = pandas.read_parquet(str(upstream["get-surnames-2015"]))
     # df = utils.append_department_description(df)
 
     departamental_results = []
@@ -26,11 +24,9 @@ def get_departmental_isonymy_2015(product):
     departamental_df.to_parquet(str(product))
 
 
-def get_departmental_isonymy_2021(product):
+def get_departmental_isonymy_2021(upstream, product):
     """"""
-    df = pandas.read_parquet(
-        "/home/lmorales/work/pipelines/surname_data_pipeline/_products/clean/surnames_2021.parquet"
-    )
+    df = pandas.read_parquet(str(upstream["get-surnames-2021"]))
 
     departamental_results = []
 

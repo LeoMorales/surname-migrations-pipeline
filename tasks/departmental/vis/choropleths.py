@@ -10,6 +10,7 @@ def plot_comparative_choropleth_maps(
     upstream,
     product,
     departmentShapePath,
+    population_threshold: int = 1000,
     divisionalView: str = "Argentina",
     plotColumn: str = "fishers_alpha",
 ):
@@ -27,6 +28,10 @@ def plot_comparative_choropleth_maps(
     df_2001 = pandas.read_parquet(str(upstream["get-merged-indicators-2001"]))
     df_2015 = pandas.read_parquet(str(upstream["get-merged-indicators-2015"]))
     df_2021 = pandas.read_parquet(str(upstream["get-merged-indicators-2021"]))
+
+    df_2001 = df_2001[df_2001["population_2001"] > population_threshold].copy()
+    df_2015 = df_2015[df_2015["population_2015"] > population_threshold].copy()
+    df_2021 = df_2021[df_2021["population_2021"] > population_threshold].copy()
 
     # cuando se combina con la capa, se agrega el campo de region
     gdf_2001 = pandas.merge(
@@ -90,6 +95,7 @@ def plot_comparative_choropleth_maps(
         shape=plot_shape,
         plotColumn=plotColumn,
         gradientLabel=f"{plotColumn} value",
+        mapArgs={"cmap": "Oranges"},
     )
 
     title_ypositions = {
